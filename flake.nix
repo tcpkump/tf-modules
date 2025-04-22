@@ -19,6 +19,9 @@
           packages = [
             pkgs.tenv
             pkgs.talosctl
+            pkgs.pre-commit
+            pkgs.terraform-docs
+            pkgs.trivy
           ];
 
           # Define the versions we want to use
