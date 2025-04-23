@@ -5,9 +5,11 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.0 |
 | <a name="requirement_proxmox"></a> [proxmox](#requirement\_proxmox) | >= 0.76.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.0 |
 | <a name="requirement_talos"></a> [talos](#requirement\_talos) | >= 0.8.0-alpha.0 |
+| <a name="requirement_tls"></a> [tls](#requirement\_tls) | >= 4.0 |
 
 ## Providers
 
@@ -25,29 +27,48 @@ No modules.
 | Name | Type |
 |------|------|
 | [proxmox_virtual_environment_download_file.talos_image](https://registry.terraform.io/providers/bpg/proxmox/latest/docs/resources/virtual_environment_download_file) | resource |
-| [proxmox_virtual_environment_vm.control](https://registry.terraform.io/providers/bpg/proxmox/latest/docs/resources/virtual_environment_vm) | resource |
+| [proxmox_virtual_environment_file.control_plane_user_data](https://registry.terraform.io/providers/bpg/proxmox/latest/docs/resources/virtual_environment_file) | resource |
+| [proxmox_virtual_environment_file.worker_user_data](https://registry.terraform.io/providers/bpg/proxmox/latest/docs/resources/virtual_environment_file) | resource |
+| [proxmox_virtual_environment_vm.control_plane](https://registry.terraform.io/providers/bpg/proxmox/latest/docs/resources/virtual_environment_vm) | resource |
+| [proxmox_virtual_environment_vm.worker](https://registry.terraform.io/providers/bpg/proxmox/latest/docs/resources/virtual_environment_vm) | resource |
+| [talos_cluster_kubeconfig.this](https://registry.terraform.io/providers/siderolabs/talos/latest/docs/resources/cluster_kubeconfig) | resource |
 | [talos_image_factory_schematic.this](https://registry.terraform.io/providers/siderolabs/talos/latest/docs/resources/image_factory_schematic) | resource |
+| [talos_machine_bootstrap.this](https://registry.terraform.io/providers/siderolabs/talos/latest/docs/resources/machine_bootstrap) | resource |
+| [talos_machine_secrets.this](https://registry.terraform.io/providers/siderolabs/talos/latest/docs/resources/machine_secrets) | resource |
+| [talos_client_configuration.this](https://registry.terraform.io/providers/siderolabs/talos/latest/docs/data-sources/client_configuration) | data source |
 | [talos_image_factory_extensions_versions.this](https://registry.terraform.io/providers/siderolabs/talos/latest/docs/data-sources/image_factory_extensions_versions) | data source |
 | [talos_image_factory_urls.this](https://registry.terraform.io/providers/siderolabs/talos/latest/docs/data-sources/image_factory_urls) | data source |
+| [talos_machine_configuration.control_plane](https://registry.terraform.io/providers/siderolabs/talos/latest/docs/data-sources/machine_configuration) | data source |
+| [talos_machine_configuration.worker](https://registry.terraform.io/providers/siderolabs/talos/latest/docs/data-sources/machine_configuration) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_control_plane_count"></a> [control\_plane\_count](#input\_control\_plane\_count) | Number of control plane nodes | `number` | `3` | no |
-| <a name="input_cpu_cores"></a> [cpu\_cores](#input\_cpu\_cores) | Number of CPU cores for the VM | `number` | `2` | no |
-| <a name="input_disk_size"></a> [disk\_size](#input\_disk\_size) | Disk size for the VM in GB | `number` | `20` | no |
-| <a name="input_env"></a> [env](#input\_env) | Environment name (dev, prod, etc.) | `string` | n/a | yes |
-| <a name="input_network_bridge"></a> [network\_bridge](#input\_network\_bridge) | Network bridge to use for the VM | `string` | n/a | yes |
-| <a name="input_proxmox_iso_datastore_id"></a> [proxmox\_iso\_datastore\_id](#input\_proxmox\_iso\_datastore\_id) | Proxmox datastore ID | `string` | n/a | yes |
-| <a name="input_proxmox_node_name"></a> [proxmox\_node\_name](#input\_proxmox\_node\_name) | Proxmox node name | `string` | n/a | yes |
-| <a name="input_proxmox_vm_datastore_id"></a> [proxmox\_vm\_datastore\_id](#input\_proxmox\_vm\_datastore\_id) | Proxmox datastore ID | `string` | n/a | yes |
-| <a name="input_ssh_public_keys"></a> [ssh\_public\_keys](#input\_ssh\_public\_keys) | List of SSH public keys to add to the VM | `list(string)` | `[]` | no |
-| <a name="input_talos_version"></a> [talos\_version](#input\_talos\_version) | Talos version to use | `string` | n/a | yes |
+| <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Unique name for the Talos cluster (used in VM names and Talos config). | `string` | n/a | yes |
+| <a name="input_control_plane_nodes"></a> [control\_plane\_nodes](#input\_control\_plane\_nodes) | Configuration for the control plane nodes. | <pre>object({<br/>    count = number<br/>    vm_config = object({<br/>      cores    = number<br/>      memory   = number # In MiB<br/>      disk_gb  = number<br/>      cpu_type = optional(string, "x86-64-v2-AES")<br/>    })<br/>    # List of static IP configurations. MUST match the count.<br/>    ip_configs = list(object({<br/>      ip      = string # e.g., "192.168.1.10/24"<br/>      gateway = string # e.g., "192.168.1.1"<br/>    }))<br/>  })</pre> | n/a | yes |
+| <a name="input_control_plane_vip"></a> [control\_plane\_vip](#input\_control\_plane\_vip) | Optional: The Virtual IP address for the control plane API server. If provided, kube-vip will be configured. | `string` | `null` | no |
+| <a name="input_network_bridge"></a> [network\_bridge](#input\_network\_bridge) | Network bridge to use for the VMs (e.g., 'vmbr0'). | `string` | n/a | yes |
+| <a name="input_proxmox_iso_datastore_id"></a> [proxmox\_iso\_datastore\_id](#input\_proxmox\_iso\_datastore\_id) | The Proxmox storage ID where the Talos ISO will be downloaded/stored. | `string` | n/a | yes |
+| <a name="input_proxmox_node_name"></a> [proxmox\_node\_name](#input\_proxmox\_node\_name) | The Proxmox node where VMs will be created. | `string` | n/a | yes |
+| <a name="input_proxmox_vm_datastore_id"></a> [proxmox\_vm\_datastore\_id](#input\_proxmox\_vm\_datastore\_id) | The Proxmox storage ID where VM disks will be created. | `string` | n/a | yes |
+| <a name="input_talos_config_patches"></a> [talos\_config\_patches](#input\_talos\_config\_patches) | List of YAML strings to patch the machine configs (applied to ALL nodes). | `list(string)` | `[]` | no |
+| <a name="input_talos_config_patches_control_plane"></a> [talos\_config\_patches\_control\_plane](#input\_talos\_config\_patches\_control\_plane) | List of YAML strings to patch ONLY the control plane machine configs. | `list(string)` | `[]` | no |
+| <a name="input_talos_config_patches_worker"></a> [talos\_config\_patches\_worker](#input\_talos\_config\_patches\_worker) | List of YAML strings to patch ONLY the worker machine configs. | `list(string)` | `[]` | no |
+| <a name="input_talos_version"></a> [talos\_version](#input\_talos\_version) | Talos version to use (e.g., 'v1.7.5'). | `string` | n/a | yes |
+| <a name="input_vm_tags"></a> [vm\_tags](#input\_vm\_tags) | List of tags to apply to the Proxmox VMs. | `list(string)` | `[]` | no |
+| <a name="input_worker_nodes"></a> [worker\_nodes](#input\_worker\_nodes) | Configuration for the worker nodes. | <pre>object({<br/>    count = number<br/>    vm_config = object({<br/>      cores    = number<br/>      memory   = number # In MiB<br/>      disk_gb  = number<br/>      cpu_type = optional(string, "x86-64-v2-AES")<br/>    })<br/>    use_dhcp = optional(bool, true)<br/>    # Only provide if use_dhcp is false. MUST match the count.<br/>    ip_configs = optional(list(object({<br/>      ip      = string # e.g., "192.168.1.100/24"<br/>      gateway = string # e.g., "192.168.1.1"<br/>    })), [])<br/>  })</pre> | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_control_node_ids"></a> [control\_node\_ids](#output\_control\_node\_ids) | Control node IDs |
+| <a name="output_bootstrap_node_ip"></a> [bootstrap\_node\_ip](#output\_bootstrap\_node\_ip) | IP address of the control plane node used for bootstrapping. |
+| <a name="output_cluster_endpoint"></a> [cluster\_endpoint](#output\_cluster\_endpoint) | The effective cluster API endpoint (VIP if configured, otherwise first control plane node). |
+| <a name="output_control_plane_ips"></a> [control\_plane\_ips](#output\_control\_plane\_ips) | List of static IP addresses assigned to control plane nodes. |
+| <a name="output_control_plane_vip"></a> [control\_plane\_vip](#output\_control\_plane\_vip) | The configured Control Plane VIP address (null if not configured). |
+| <a name="output_control_plane_vm_ids"></a> [control\_plane\_vm\_ids](#output\_control\_plane\_vm\_ids) | List of Proxmox VM IDs for the control plane nodes. |
+| <a name="output_kubeconfig"></a> [kubeconfig](#output\_kubeconfig) | Kubernetes client configuration (kubeconfig). Uses VIP endpoint if configured. |
+| <a name="output_talosconfig"></a> [talosconfig](#output\_talosconfig) | Talos client configuration (talosconfig). |
+| <a name="output_worker_vm_ids"></a> [worker\_vm\_ids](#output\_worker\_vm\_ids) | List of Proxmox VM IDs for the worker nodes. |
 <!-- END_TF_DOCS -->

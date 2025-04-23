@@ -6,7 +6,9 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_proxmox"></a> [proxmox](#requirement\_proxmox) | 0.76.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | 3.7.2 |
 | <a name="requirement_talos"></a> [talos](#requirement\_talos) | 0.8.0-alpha.0 |
+| <a name="requirement_tls"></a> [tls](#requirement\_tls) | 4.0.6 |
 
 ## Providers
 
