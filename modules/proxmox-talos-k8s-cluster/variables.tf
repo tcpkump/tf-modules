@@ -37,10 +37,10 @@ variable "control_plane_nodes" {
   type = object({
     count = number
     vm_config = object({
-      cores    = number
-      memory   = number # In MiB
-      disk_gb  = number
-      cpu_type = optional(string, "x86-64-v2-AES")
+      cores        = number
+      memory       = number # In MiB
+      boot_disk_gb = number
+      cpu_type     = optional(string, "x86-64-v2-AES")
     })
     # List of static IP configurations. MUST match the count.
     ip_configs = list(object({
@@ -83,10 +83,11 @@ variable "worker_nodes" {
   type = object({
     count = number
     vm_config = object({
-      cores    = number
-      memory   = number # In MiB
-      disk_gb  = number
-      cpu_type = optional(string, "x86-64-v2-AES")
+      cores           = number
+      memory          = number # In MiB
+      boot_disk_gb    = number
+      storage_disk_gb = number
+      cpu_type        = optional(string, "x86-64-v2-AES")
     })
     use_dhcp = optional(bool, true)
     # Only provide if use_dhcp is false. MUST match the count.
