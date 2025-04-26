@@ -17,10 +17,9 @@ module "example_cluster" {
     # See https://github.com/siderolabs/terraform-provider-talos/blob/main/docs/data-sources/machine_configuration.md
     # Uncomment to use this instead of version from talos_image.
     # talos_machine_config_version = "v1.9.5"
-    proxmox_cluster     = "ryzen-proxmox"
-    kubernetes_version  = "v1.32.3"
-    gateway_api_version = "v1.2.1"
-    extra_manifests     = []
+    proxmox_cluster                         = "ryzen-proxmox"
+    kubernetes_version                      = "v1.32.3"
+    allow_scheduling_on_control_plane_nodes = true
   }
 
   nodes = {

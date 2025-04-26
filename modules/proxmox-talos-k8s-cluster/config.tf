@@ -1,10 +1,6 @@
 locals {
   first_control_plane_node_ip = [for k, v in var.nodes : v.ip if v.machine_type == "controlplane"][0]
   kubernetes_endpoint         = coalesce(var.cluster.vip, local.first_control_plane_node_ip)
-  extra_manifests = concat(var.cluster.extra_manifests, [
-    "https://github.com/kubernetes-sigs/gateway-api/releases/download/${var.cluster.gateway_api_version}/standard-install.yaml",
-    "https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/${var.cluster.gateway_api_version}/config/crd/experimental/gateway.networking.k8s.io_tlsroutes.yaml"
-  ])
 }
 
 resource "talos_machine_secrets" "this" {
@@ -39,7 +35,7 @@ data "talos_machine_configuration" "this" {
       vip                = var.cluster.vip
     }), each.value.machine_type == "controlplane" ?
     templatefile("${path.module}/machine-config/control-plane.yaml.tftpl", {
-      extra_manifests = jsonencode(local.extra_manifests)
+      allow_scheduling_on_control_plane_nodes = var.cluster.allow_scheduling_on_control_plane_nodes
     }) : ""
   ]
 }

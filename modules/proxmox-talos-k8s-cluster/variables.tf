@@ -15,15 +15,14 @@ variable "image" {
 variable "cluster" {
   description = "Cluster configuration"
   type = object({
-    name                         = string
-    vip                          = optional(string)
-    gateway                      = string
-    subnet_mask                  = optional(string, "16")
-    talos_machine_config_version = optional(string)
-    proxmox_cluster              = string
-    kubernetes_version           = string
-    gateway_api_version          = string
-    extra_manifests              = optional(list(string))
+    name                                    = string
+    vip                                     = optional(string)
+    gateway                                 = string
+    subnet_mask                             = optional(string, "16")
+    talos_machine_config_version            = optional(string)
+    proxmox_cluster                         = string
+    kubernetes_version                      = string
+    allow_scheduling_on_control_plane_nodes = optional(bool, false)
   })
 }
 
