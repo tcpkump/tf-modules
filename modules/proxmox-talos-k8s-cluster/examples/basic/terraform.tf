@@ -8,13 +8,9 @@ terraform {
       source  = "siderolabs/talos"
       version = "0.8.0-alpha.0"
     }
-    random = {
-      source  = "hashicorp/random"
-      version = "3.7.2"
-    }
-    tls = {
-      source  = "hashicorp/tls"
-      version = "4.0.6"
+    http = {
+      source  = "hashicorp/http"
+      version = "3.4.5"
     }
   }
 }
