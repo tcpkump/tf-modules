@@ -27,7 +27,6 @@ No modules.
 |------|------|
 | [proxmox_virtual_environment_download_file.this](https://registry.terraform.io/providers/bpg/proxmox/latest/docs/resources/virtual_environment_download_file) | resource |
 | [proxmox_virtual_environment_vm.this](https://registry.terraform.io/providers/bpg/proxmox/latest/docs/resources/virtual_environment_vm) | resource |
-| [talos_cluster_kubeconfig.this](https://registry.terraform.io/providers/siderolabs/talos/latest/docs/resources/cluster_kubeconfig) | resource |
 | [talos_image_factory_schematic.this](https://registry.terraform.io/providers/siderolabs/talos/latest/docs/resources/image_factory_schematic) | resource |
 | [talos_image_factory_schematic.updated](https://registry.terraform.io/providers/siderolabs/talos/latest/docs/resources/image_factory_schematic) | resource |
 | [talos_machine_bootstrap.this](https://registry.terraform.io/providers/siderolabs/talos/latest/docs/resources/machine_bootstrap) | resource |
@@ -36,7 +35,6 @@ No modules.
 | [http_http.schematic_id](https://registry.terraform.io/providers/hashicorp/http/latest/docs/data-sources/http) | data source |
 | [http_http.updated_schematic_id](https://registry.terraform.io/providers/hashicorp/http/latest/docs/data-sources/http) | data source |
 | [talos_client_configuration.this](https://registry.terraform.io/providers/siderolabs/talos/latest/docs/data-sources/client_configuration) | data source |
-| [talos_cluster_health.this](https://registry.terraform.io/providers/siderolabs/talos/latest/docs/data-sources/cluster_health) | data source |
 | [talos_machine_configuration.this](https://registry.terraform.io/providers/siderolabs/talos/latest/docs/data-sources/machine_configuration) | data source |
 
 ## Inputs
@@ -52,7 +50,6 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_client_configuration"></a> [client\_configuration](#output\_client\_configuration) | n/a |
-| <a name="output_kube_config"></a> [kube\_config](#output\_kube\_config) | n/a |
 | <a name="output_machine_config"></a> [machine\_config](#output\_machine\_config) | n/a |
 | <a name="output_machine_secrets"></a> [machine\_secrets](#output\_machine\_secrets) | n/a |
 <!-- END_TF_DOCS -->
