@@ -23,6 +23,7 @@ variable "cluster" {
     proxmox_cluster                         = string
     kubernetes_version                      = string
     allow_scheduling_on_control_plane_nodes = optional(bool, false)
+    extra_manifests                         = optional(list(string))
   })
 }
 

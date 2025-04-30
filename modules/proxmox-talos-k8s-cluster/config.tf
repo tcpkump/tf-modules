@@ -36,6 +36,7 @@ data "talos_machine_configuration" "this" {
     }), each.value.machine_type == "controlplane" ?
     templatefile("${path.module}/machine-config/control-plane.yaml.tftpl", {
       allow_scheduling_on_control_plane_nodes = var.cluster.allow_scheduling_on_control_plane_nodes
+      extra_manifests                         = jsonencode(var.cluster.extra_manifests)
     }) : ""
   ]
 }

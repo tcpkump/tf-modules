@@ -1,4 +1,7 @@
-# talos
+# proxmox-talos-k8s-cluster
+
+Credit goes to Vegard Hagen (github user vehagn) for the base of this module that I have modified to my needs.
+[LINK](https://github.com/vehagn/homelab)
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -43,7 +46,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_cluster"></a> [cluster](#input\_cluster) | Cluster configuration | <pre>object({<br/>    name                                    = string<br/>    vip                                     = optional(string)<br/>    gateway                                 = string<br/>    subnet_mask                             = optional(string, "16")<br/>    talos_machine_config_version            = optional(string)<br/>    proxmox_cluster                         = string<br/>    kubernetes_version                      = string<br/>    allow_scheduling_on_control_plane_nodes = optional(bool, false)<br/>  })</pre> | n/a | yes |
+| <a name="input_cluster"></a> [cluster](#input\_cluster) | Cluster configuration | <pre>object({<br/>    name                                    = string<br/>    vip                                     = optional(string)<br/>    gateway                                 = string<br/>    subnet_mask                             = optional(string, "16")<br/>    talos_machine_config_version            = optional(string)<br/>    proxmox_cluster                         = string<br/>    kubernetes_version                      = string<br/>    allow_scheduling_on_control_plane_nodes = optional(bool, false)<br/>    extra_manifests                         = optional(list(string))<br/>  })</pre> | n/a | yes |
 | <a name="input_image"></a> [image](#input\_image) | Talos image configuration | <pre>object({<br/>    factory_url           = optional(string, "https://factory.talos.dev")<br/>    schematic_path        = string<br/>    version               = string<br/>    update_schematic_path = optional(string)<br/>    update_version        = optional(string)<br/>    arch                  = optional(string, "amd64")<br/>    platform              = optional(string, "nocloud")<br/>    proxmox_datastore     = optional(string, "local")<br/>  })</pre> | n/a | yes |
 | <a name="input_nodes"></a> [nodes](#input\_nodes) | Configuration for cluster nodes | <pre>map(object({<br/>    host_node      = string<br/>    machine_type   = string<br/>    datastore_id   = optional(string, "samsung-500gb")<br/>    ip             = string<br/>    dns            = optional(list(string))<br/>    network_bridge = string<br/>    vm_id          = number<br/>    cpu            = number<br/>    ram_dedicated  = number<br/>    update         = optional(bool, false)<br/>    igpu           = optional(bool, false)<br/>  }))</pre> | n/a | yes |
 
