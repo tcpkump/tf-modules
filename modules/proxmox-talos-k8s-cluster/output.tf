@@ -12,7 +12,7 @@ output "client_configuration" {
   sensitive = true
 }
 
-# output "kube_config" {
-#   value     = talos_cluster_kubeconfig.this
-#   sensitive = true
-# }
+output "kube_config" {
+  value     = talos_cluster_kubeconfig.this
+  sensitive = true
+}

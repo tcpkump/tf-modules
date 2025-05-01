@@ -43,3 +43,11 @@ variable "nodes" {
     igpu           = optional(bool, false)
   }))
 }
+
+variable "flux_bootstrap_repo" {
+  description = "username/name for the gitea repository with fluxcd setup"
+  type = object({
+    username = string
+    name     = string
+  })
+}

@@ -61,7 +61,7 @@ resource "proxmox_virtual_environment_download_file" "this" {
   datastore_id = var.image.proxmox_datastore
 
   # Use the globally determined version/schematic for all hosts
-  file_name               = "talos-${local.effective_schematic}-${local.effective_version}-${var.image.platform}-${var.image.arch}.img"
+  file_name               = "${var.cluster.name}-${local.effective_schematic}-${local.effective_version}-${var.image.platform}-${var.image.arch}.img"
   url                     = "${var.image.factory_url}/image/${local.effective_schematic}/${local.effective_version}/${var.image.platform}-${var.image.arch}.raw.gz"
   decompression_algorithm = "gz"
   overwrite               = false

@@ -22,6 +22,12 @@ module "example_cluster" {
     allow_scheduling_on_control_plane_nodes = true
   }
 
+  flux_bootstrap_repo = {
+    # Points to example.gitea.com/kumpy/fluxcd-demo
+    username = "kumpy"
+    name     = "fluxcd-demo"
+  }
+
   nodes = {
     "ctrl-00" = {
       host_node      = "ryzen-proxmox"
