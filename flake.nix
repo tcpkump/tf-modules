@@ -23,6 +23,7 @@
             pkgs.terraform-docs
             pkgs.trivy
             pkgs.gitleaks
+            pkgs.git-cliff
           ];
 
           # Define the versions we want to use
