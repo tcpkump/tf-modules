@@ -3,9 +3,11 @@ resource "gitea_repository" "this" {
   name        = var.name
   description = var.description
 
-  mirror                          = var.mirror_to_github
-  migration_clone_address         = var.mirror_to_github ? "https://github.com/tcpkump/${var.name}.git" : null
-  migration_service               = var.mirror_to_github ? "github" : null
-  migration_service_auth_username = var.mirror_to_github ? "tcpkump" : null
-  migration_service_auth_token    = var.mirror_to_github ? var.github_mirror_token : null
+  push_mirror {
+    remote_address  = var.mirror_to_github ? "https://github.com/tcpkump/${var.name}.git" : null
+    remote_username = var.mirror_to_github ? "github" : null
+    remote_password = var.mirror_to_github ? var.github_mirror_token : null
+    interval        = "1h0m0s"
+    sync_on_commit  = true
+  }
 }
