@@ -22,7 +22,8 @@ variable "disk_size" {
 
 variable "id" {
   type        = list(number)
-  description = "List of VM IDs for containers, must match container_count length"
+  description = "(Optional) List of VM IDs for containers, must match container_count length"
+  default     = null
 }
 
 variable "container_count" {

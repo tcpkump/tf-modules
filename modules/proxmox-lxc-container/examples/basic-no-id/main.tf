@@ -5,8 +5,7 @@ module "lxc_container" {
   container_count = 2
   name            = "test-container"
 
-  id            = [900, 901]
-  ip            = ["10.200.1.10", "10.200.1.11"]
+  ip            = ["10.200.1.20", "10.200.1.21"]
   disk_location = ["local-lvm"]
   disk_size     = "10G"
 

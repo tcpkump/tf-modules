@@ -149,7 +149,7 @@ No modules.
 | <a name="input_disk_size"></a> [disk\_size](#input\_disk\_size) | The size of container disk (e.g., '20G') | `string` | `"8G"` | no |
 | <a name="input_gateway"></a> [gateway](#input\_gateway) | Network gateway IP address | `string` | `null` | no |
 | <a name="input_host_node"></a> [host\_node](#input\_host\_node) | Proxmox node name where containers will be deployed | `string` | n/a | yes |
-| <a name="input_id"></a> [id](#input\_id) | List of VM IDs for containers, must match container\_count length | `list(number)` | n/a | yes |
+| <a name="input_id"></a> [id](#input\_id) | (Optional) List of VM IDs for containers, must match container\_count length | `list(number)` | `null` | no |
 | <a name="input_ip"></a> [ip](#input\_ip) | List of IP addresses or 'dhcp' for containers | `list(string)` | n/a | yes |
 | <a name="input_mem"></a> [mem](#input\_mem) | Amount of RAM in MB | `number` | `512` | no |
 | <a name="input_name"></a> [name](#input\_name) | Base hostname for containers | `string` | n/a | yes |

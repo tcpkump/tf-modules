@@ -3,7 +3,7 @@ resource "proxmox_virtual_environment_container" "this" {
   description = "Managed by Terraform"
 
   node_name     = var.host_node
-  vm_id         = var.id[count.index]
+  vm_id         = try(var.id[count.index], null)
   unprivileged  = true
   start_on_boot = true
   started       = true
