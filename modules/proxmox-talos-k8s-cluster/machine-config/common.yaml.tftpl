@@ -17,3 +17,7 @@ machine:
         vip:
           ip: ${vip}
 %{ endif }
+  install:
+    extensions:
+      - image: ghcr.io/siderolabs/iscsi-tools:${kubernetes_version}
+      - image: ghcr.io/siderolabs/util-linux-tools:${kubernetes_version}

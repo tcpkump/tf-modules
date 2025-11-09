@@ -61,13 +61,15 @@ module "example_cluster" {
       #update        = true
     }
     #    "work-00" = {
-    #      host_node     = "abel"
-    #      machine_type  = "worker"
-    #      ip            = "192.168.1.110"
-    #      dns           = ["1.1.1.1", "8.8.8.8"] # Optional Value.
-    #      vm_id         = 810
-    #      cpu           = 8
-    #      ram_dedicated = 4096
+    #      host_node      = "abel"
+    #      machine_type   = "worker"
+    #      ip             = "192.168.1.110"
+    #      dns            = ["1.1.1.1", "8.8.8.8"] # Optional Value.
+    #      network_bridge = "vmbr0"
+    #      vm_id          = 810
+    #      cpu            = 8
+    #      ram_dedicated  = 4096
+    #      disk_size      = 50 # Optional: defaults to 10GB for controlplane, 50GB for worker
     #    }
   }
 

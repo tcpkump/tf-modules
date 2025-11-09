@@ -38,7 +38,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     discard      = "on"
     ssd          = true
     file_format  = "raw"
-    size         = 10
+    size         = coalesce(each.value.disk_size, each.value.machine_type == "controlplane" ? 10 : 50)
     file_id      = proxmox_virtual_environment_download_file.this["${each.value.host_node}_${each.value.update == true ? local.update_image_id : local.image_id}"].id
   }
 
