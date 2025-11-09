@@ -2,6 +2,15 @@ machine:
   nodeLabels:
     topology.kubernetes.io/region: ${cluster_name}
     topology.kubernetes.io/zone: ${node_name}
+  kubelet:
+    extraMounts:
+      - destination: /var/mnt/longhorn
+        type: bind
+        source: /var/mnt/longhorn
+        options:
+          - bind
+          - rshared
+          - rw
   network:
     hostname: ${hostname}
     interfaces:
@@ -19,5 +28,5 @@ machine:
 %{ endif }
   install:
     extensions:
-      - image: ghcr.io/siderolabs/iscsi-tools:${kubernetes_version}
-      - image: ghcr.io/siderolabs/util-linux-tools:${kubernetes_version}
+      - image: ghcr.io/siderolabs/iscsi-tools
+      - image: ghcr.io/siderolabs/util-linux-tools
