@@ -13,8 +13,8 @@ locals {
 
   # Comment the above 2 lines and un-comment the below 2 lines to use the provider schematic ID instead of the HTTP one
   # ref - https://github.com/vehagn/homelab/issues/106
-  # image_id = "${talos_image_factory_schematic.this.id}_${local.version}"
-  # update_image_id = "${talos_image_factory_schematic.updated.id}_${local.update_version}"
+  # image_id = "${talos_image_factory_schematic.this["base"].id}_${local.version}"
+  # update_image_id = "${talos_image_factory_schematic.this["updated"].id}_${local.update_version}"
 }
 
 data "http" "schematic_id" {
@@ -29,27 +29,25 @@ data "http" "updated_schematic_id" {
   request_body = local.update_schematic
 }
 
-resource "talos_image_factory_schematic" "this" {
-  schematic = local.schematic
-}
-
-resource "talos_image_factory_schematic" "updated" {
-  schematic = local.update_schematic
-}
-
 locals {
   # 1. Does *any* node in the entire configuration require an update?
   any_node_needs_update = anytrue([
     for k, v in var.nodes : v.update == true
   ])
 
-  # 2. Determine the single version and schematic to use globally
-  effective_version   = local.any_node_needs_update ? local.update_version : local.version
-  effective_schematic = local.any_node_needs_update ? talos_image_factory_schematic.updated.id : talos_image_factory_schematic.this.id
+  # 2. Determine which unique schematics are actually needed
+  unique_schematics = toset([
+    for k, v in var.nodes :
+    v.update == true ? "updated" : "base"
+  ])
+}
 
-  # 3. Get the set of unique host nodes
-  # (Adjust syntax if var.nodes is a list: toset([for v in var.nodes : v.host_node]))
-  unique_host_nodes = toset([for k, v in var.nodes : v.host_node])
+# Create schematic resources only for the schematics actually in use
+# This prevents unnecessary resource updates when transitioning between schematics
+resource "talos_image_factory_schematic" "this" {
+  for_each = local.unique_schematics
+
+  schematic = each.key == "updated" ? local.update_schematic : local.schematic
 }
 
 # Note the ellipsis (...) after the for-loop. This collects values with same keys into a list.
@@ -61,7 +59,7 @@ resource "proxmox_virtual_environment_download_file" "this" {
     for k, v in var.nodes :
     "${v.host_node}_${v.update == true ? local.update_image_id : local.image_id}" => {
       host_node = v.host_node
-      schematic = v.update == true ? talos_image_factory_schematic.updated.id : talos_image_factory_schematic.this.id
+      schematic = v.update == true ? talos_image_factory_schematic.this["updated"].id : talos_image_factory_schematic.this["base"].id
       version   = v.update == true ? local.update_version : local.version
     }...
   }
