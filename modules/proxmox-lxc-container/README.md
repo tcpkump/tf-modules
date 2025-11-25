@@ -143,6 +143,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_cidr"></a> [cidr](#input\_cidr) | CIDR range for given IPs | `string` | `"24"` | no |
 | <a name="input_container_count"></a> [container\_count](#input\_container\_count) | Number of containers to deploy | `number` | `1` | no |
 | <a name="input_cpu"></a> [cpu](#input\_cpu) | The number of CPU cores | `number` | `1` | no |
 | <a name="input_disk_location"></a> [disk\_location](#input\_disk\_location) | List of datastore IDs for container storage | `list(string)` | n/a | yes |

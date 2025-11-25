@@ -37,6 +37,12 @@ variable "ip" {
   description = "List of IP addresses or 'dhcp' for containers"
 }
 
+variable "cidr" {
+  type        = string
+  description = "CIDR range for given IPs"
+  default     = "24"
+}
+
 variable "name" {
   type        = string
   description = "Base hostname for containers"

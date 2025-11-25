@@ -26,7 +26,7 @@ resource "proxmox_virtual_environment_container" "this" {
 
     ip_config {
       ipv4 {
-        address = var.ip[count.index] == "dhcp" ? "dhcp" : "${var.ip[count.index]}/24"
+        address = var.ip[count.index] == "dhcp" ? "dhcp" : "${var.ip[count.index]}/${var.cidr}"
         gateway = var.ip[count.index] == "dhcp" ? null : var.gateway
       }
     }
