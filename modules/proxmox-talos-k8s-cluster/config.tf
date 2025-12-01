@@ -38,6 +38,8 @@ data "talos_machine_configuration" "this" {
     templatefile("${path.module}/machine-config/control-plane.yaml.tftpl", {
       allow_scheduling_on_control_plane_nodes = var.cluster.allow_scheduling_on_control_plane_nodes
       extra_manifests                         = jsonencode(var.cluster.extra_manifests)
+      pod_subnet                              = var.cluster.pod_subnet
+      service_subnet                          = var.cluster.service_subnet
     }) : each.value.machine_type == "worker" ?
     templatefile("${path.module}/machine-config/worker.yaml.tftpl", {}) : ""
   ]

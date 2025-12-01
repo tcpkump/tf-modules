@@ -25,6 +25,8 @@ variable "cluster" {
     kubernetes_version                      = string
     allow_scheduling_on_control_plane_nodes = optional(bool, false)
     extra_manifests                         = optional(list(string))
+    pod_subnet                              = optional(string, "10.244.0.0/16")
+    service_subnet                          = optional(string, "10.43.0.0/16")
   })
 }
 

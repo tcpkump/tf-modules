@@ -1,3 +1,8 @@
 cluster:
   allowSchedulingOnControlPlanes: ${allow_scheduling_on_control_plane_nodes}
   extraManifests: ${extra_manifests}
+  network:
+    podSubnets:
+      - ${pod_subnet}
+    serviceSubnets:
+      - ${service_subnet}
