@@ -1,3 +1,9 @@
+cluster:
+  network:
+    podSubnets:
+      - ${pod_subnet}
+    serviceSubnets:
+      - ${service_subnet}
 machine:
   nodeLabels:
     topology.kubernetes.io/region: ${cluster_name}
