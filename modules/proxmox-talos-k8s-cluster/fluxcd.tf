@@ -22,5 +22,4 @@ resource "flux_bootstrap_git" "this" {
 
   embedded_manifests = true
   path               = "clusters/${var.cluster.name}"
-  branch             = var.flux_bootstrap_repo.branch
 }
