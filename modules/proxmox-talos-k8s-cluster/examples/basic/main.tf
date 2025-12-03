@@ -26,6 +26,7 @@ module "example_cluster" {
     # Points to example.gitea.com/kumpy/fluxcd-demo
     username = "kumpy"
     name     = "fluxcd-demo"
+    branch   = "main" # Optional: defaults to "main". Use "production" for prod clusters.
   }
 
   nodes = {

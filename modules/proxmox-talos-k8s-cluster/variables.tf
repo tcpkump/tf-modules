@@ -53,5 +53,6 @@ variable "flux_bootstrap_repo" {
   type = object({
     username = string
     name     = string
+    branch   = optional(string, "main")
   })
 }
